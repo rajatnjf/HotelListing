@@ -4,7 +4,7 @@ namespace HotelListing.Models
 {
     public class CountryDTO : CreateCountryDTO
     {
-        public int CountryId { get; set; }
+        public int Id { get; set; }
         
         public IList<HotelDTO> Hotels { get; set; }
     }

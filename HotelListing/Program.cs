@@ -1,5 +1,7 @@
 using HotelListing.Configurations;
 using HotelListing.Data;
+using HotelListing.IRepository;
+using HotelListing.Repository;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
@@ -19,7 +21,8 @@ builder.Host.UseSerilog((ctx, lc) =>
 
 builder.Services.AddDbContext<HotelContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"))
+        .LogTo(Console.WriteLine, LogLevel.Information);
 });
 
 builder.Services.AddCors(policy =>
@@ -31,6 +34,7 @@ builder.Services.AddCors(policy =>
 });
 
 builder.Services.AddAutoMapper(typeof(MapperInitializer));
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
 
